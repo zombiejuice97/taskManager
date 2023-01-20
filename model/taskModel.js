@@ -8,8 +8,8 @@ const taskSchema = mongoose.Schema(
         },
         completed:{
             type:Boolean,
-            defaut:false,
-            required:true
+            required:true,
+            default:false
         }
 
     },
@@ -21,4 +21,5 @@ const taskSchema = mongoose.Schema(
 
 const Task = mongoose.model("Task",taskSchema);
 
-export default Task;
+// export default Task;
+module.exports = Task;
