@@ -1,10 +1,9 @@
 //imports 
-
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
-const Task = require('./model/taskModel');
+const Task = require('./models/taskModel');
 const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
@@ -13,7 +12,7 @@ app.use(express.json());
 app.use(taskRoutes);
 
 
-
+//firing up the server and connecting to mongo
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => {
