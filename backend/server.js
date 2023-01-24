@@ -4,26 +4,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
-const Task = require('../model/taskModel');
-
+const Task = require('./model/taskModel');
+const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.get('/', function (req, res) {
-    res.send('Home page!');
-})
-
-app.post('/api/tasks', async function (req, res) {
-    try {
-        const task = await Task.create(req.body);
-        res.json(task);
-    } catch (error) {
-        res.send(error);
-    }
-
-})
+app.use(taskRoutes);
 
 
 
