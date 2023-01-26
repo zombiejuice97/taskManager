@@ -1,9 +1,13 @@
+import React from "react";
+import TaskList from "./components/TaskList";
 
 
 function App() {
   return (
     <div className="App">
-      Hello world!
+      <div className="container">
+        <TaskList />
+      </div>
     </div>
   );
 }
