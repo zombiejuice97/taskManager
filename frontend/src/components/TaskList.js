@@ -1,41 +1,66 @@
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Task from "./Task";
 import TaskForm from "./TaskForm";
 import 'react-toastify/dist/ReactToastify.css'; // import first
 import { ToastContainer, toast } from 'react-toastify'; // then this
+import axios from "axios";
 
 
-function TaskList(){
-    const [formData,setFromData] = useState({
-        name:"",
-        completed:false
+function TaskList() {
+    const [formData, setFromData] = useState({
+        name: "",
+        completed: false
     })
-    const {name}=formData;
+    const [tasks,setTasks] = useState([]);
+    const { name } = formData;
 
-    const handleChange = (e)=>{
-        const {name,value} = e.target;
-        setFromData({...formData,[name]:value});
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFromData({ ...formData, [name]: value });
     }
 
-    const createTask =  function(e){
+    const getTasks = async () => {
+        try {
+            const { data } = await axios.get("http://localhost:5000/api/tasks")
+            setTasks(data);
+        } catch (error) {
+            toast(error.message)
+        }
+
+
+    }
+
+    useEffect(() => {
+        getTasks()
+    }, [])
+
+    const createTask = async function (e) {
         e.preventDefault();
-         if(name === ""){
-            
+        if (name === "") {
             return (
-                toast.error('enter a name!'),
-            <ToastContainer/>
+                toast("Task needs to have a name, bruh!")
             )
+        }
+        try {
+            await axios.post("http://localhost:5000/api/tasks", formData)
+            setFromData({ ...formData, name: '' })
+        } catch (error) {
+            toast.error(error.message);
+        }
 
     }
-    console.log(formData);
-    }
 
-    return(
+    return (
         <div>
             <h2 className="heading">Tasks list</h2>
-            <TaskForm name={name} handleChange={handleChange} createTask={createTask}/>
+            <TaskForm name={name} handleChange={handleChange} createTask={createTask} />
             <hr />
-            <Task/>
+            {
+                tasks.map((task,index)=><Task key={task._id} task={task} index={index}/>)
+            }
+            {/* <Task /> */}
+            <ToastContainer />
         </div>
     )
 }

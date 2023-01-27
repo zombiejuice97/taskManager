@@ -1,11 +1,14 @@
 
 import { FaEdit, FaTrash, FaCheck, FaRegClock } from 'react-icons/fa'
 
-function Task() {
+function Task({task,index}) {
     return (
         <div className='task'>
 
-            <p color='white'>Task is somethign that you do bruhhhhhh</p>
+            <p> 
+                <b>{index+1}. </b>
+                {task.name}
+            </p>
             <div className='icons'>
                 <FaRegClock color="rgb(158, 159, 159)" />   
                 <FaCheck color="rgb(158, 159, 159)" />
