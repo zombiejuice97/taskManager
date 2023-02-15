@@ -1,12 +1,13 @@
 //imports 
 const express = require('express');
+const dotenv=require('dotenv');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
+
 const bodyParser = require('body-parser');
 const Task = require('./models/taskModel');
 const cors = require("cors");
 const taskRoutes = require("./routes/taskRoutes");
-
+dotenv.config({path:"../.env"});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));

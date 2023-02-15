@@ -33,7 +33,7 @@ function TaskList() {
 
     useEffect(() => {
         getTasks()
-    }, [])
+    }, [tasks])
 
     const createTask = async function (e) {
         e.preventDefault();
@@ -51,15 +51,23 @@ function TaskList() {
 
     }
 
+    const deleteTask = async (id)=>{
+        try {
+            await axios.delete(`http://localhost:5000/api/task/${id}`);
+            getTasks();
+        } catch (error) {
+            toast(error.message);
+        }
+    }
+
     return (
         <div>
             <h2 className="heading">Tasks list</h2>
             <TaskForm name={name} handleChange={handleChange} createTask={createTask} />
             <hr />
             {
-                tasks.map((task,index)=><Task key={task._id} task={task} index={index}/>)
+                tasks.map((task,index)=><Task key={task._id} task={task} index={index} deleteTask={deleteTask}/>)
             }
-            {/* <Task /> */}
             <ToastContainer />
         </div>
     )
